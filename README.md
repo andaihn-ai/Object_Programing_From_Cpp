@@ -3,9 +3,9 @@
 ### queue.h / queue.c /  main.c 를 cpp로 변경합니다.
   1. 확장자를 .c에서 .cpp로 바꿉니다.
   2. push(&s1, 100); ---> s1.push(100)
-  3. queue와 관련된 전역함수 --> 멤버함수
-      - void push(Queue *ps, int data) {...} ---> void Queue::push(int data) {...}
-   2) ps->   -->  this->
+  3. queue와 관련된 전역함수를 멤버함수로 작성합니다.
+      - void push(Queue * pq, int data) {...} ---> void Queue::push(int data) {...}
+  4. ps->   -->  this->
 
   > 멤버함수는 반드시 객체를 통해서 호출해야 한다.
      ex) s1.push(100)    s2.push(800)
