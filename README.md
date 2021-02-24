@@ -201,7 +201,23 @@ Complex c1;
 Complex c2 = 3.0;
 Complex c3(3.0, 4.0);
 ```
-
+#### 복소수 더하기
+  - 함수의 인자로 c1 + c2 를 넘김
+```c
+Complex c4;
+c4.real(c1.real()+c2.real());
+c4.imag(c1.imag()+c2.imag());
+std::cout << "c4 : (" << c4.real() << ", " << c4.imag() << "i)" << std::endl;
+```
+#### 복소수 비교
+- c1 과 c3가 같은지 비교한다.
+```c
+if(c1.real() == c3.real() && c1.imag() == c3.imag()){
+    std::cout << "c1 and c3 are equal" << std::endl;
+}else{
+    std::cout << "c1 and c3 are not equal" << std::endl;
+}
+```
 #### main.cpp
 ```c
 #include <iostream>
