@@ -150,7 +150,7 @@ double Complex::imag()
 }
 
 ```
-#### complex.cpp
+#### 완성된 complex.cpp
 ```c
 #include "complex.h"
 
@@ -218,7 +218,7 @@ if(c1.real() == c3.real() && c1.imag() == c3.imag()){
     std::cout << "c1 and c3 are not equal" << std::endl;
 }
 ```
-#### main.cpp
+#### 완성된 main.cpp
 ```c
 #include <iostream>
 #include "complex.h"
