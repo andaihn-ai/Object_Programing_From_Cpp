@@ -35,12 +35,32 @@ double im;
 ```
 #### 생성자 정의
   - 같은 이름의 다른 인자를 갖은 함수를 선언한다.
+  - 맴버 함수를 초기화 한다.
+  - Complex::complex() 의 형태이다.
+  - 객체가 생성될 때 자동적으로 호출된다.
+  - 반환타입은 없다.
+  - 함수 중복이 가능하다.
+#### 기본생성자(convert constructor)
+  - 인자 0개
 ```c
 Complex();
+```
+#### 변환생성자(default constructor)
+  - 인자 1개
+```c
 Complex(double re);
+```
+#### 일반생성자(ordinary constructor)
+  - 인자 2개
+```c
 Complex(double re, double im);
 ```
 #### 소멸자 정의
+  - 객체가 소멸할때 자동적으로 호출된다.
+  - 맴버 함수를 cleanup 한다.
+  - Complex::~Complex() 의 형태이다.
+  - 반환타입은 없다. 
+  - 함수 중복이 불가능 하다
 ```c
 ~Complex();
 ```
