@@ -33,7 +33,7 @@ public:
 double re;
 double im;
 ```
-#### 생성자 정의
+#### 생성자 정의 (constructor)
   - 같은 이름의 다른 인자를 갖은 함수를 선언한다.
   - 맴버 함수를 초기화 한다.
   - Complex::complex() 의 형태이다.
@@ -55,7 +55,7 @@ Complex(double re);
 ```c
 Complex(double re, double im);
 ```
-#### 소멸자 정의
+#### 소멸자 정의 (destructor)
   - 객체가 소멸할때 자동적으로 호출된다.
   - 맴버 함수를 cleanup 한다.
   - Complex::~Complex() 의 형태이다.
@@ -118,10 +118,7 @@ Complex::Complex(double re, double im)
     this->im = im;
 }
 ```
-#### 소멸자 구현
-```c
 
-```
 #### 소멸자 구현
 ```c
 Complex::~Complex()
