@@ -28,11 +28,22 @@ private:
 ```c
 public: 
 ```
-#### double형 타입의 맴버 변수 정의
+#### private 영역에 double형 타입의 맴버 변수 정의
   - 실수부, 허수부
 ```c
 double re;
 double im;
+```
+#### public 영역에 연산자 맴버 함수 정의
+  
+```c
+Complex& operator=(const Complex& rhs);
+bool operator==(const Complex& rhs);
+
+Complex operator+(const Complex& rhs);
+Complex operator-(const Complex& rhs);
+
+
 ```
 #### 생성자 정의 (constructor)
   - 같은 이름의 다른 인자를 갖은 함수를 선언한다.
@@ -41,20 +52,17 @@ double im;
   - 객체가 생성될 때 자동적으로 호출된다.
   - 반환타입은 없다.
   - 함수 중복이 가능하다.
-#### 기본생성자(convert constructor)
-  - 인자 0개
-```c
-Complex();
-```
-#### 변환생성자(default constructor)
-  - 인자 1개
-```c
-Complex(double re);
-```
+
 #### 일반생성자(ordinary constructor)
-  - 인자 2개
+  - 인자를 지정해 놓고 값을 넘기지 않을 경우 지정해논 값으로 받음
 ```c
-Complex(double re, double im);
+Complex(double re = 0.0, double im = 0.0);
+```
+#### 복사생성자(copy constructor)
+  - reference를 사용하여 복사생성자를 만듬
+  - 클래스 타입을 인자로 넘길때 오버헤드를 줄임
+```c
+Complex(const Complex &rhs);
 ```
 #### 소멸자 정의 (destructor)
   - 객체가 소멸할때 자동적으로 호출된다.
@@ -101,18 +109,7 @@ public:
 #### 생성자 구현
   -  넘어오는 인자에 해당하는 함수들을 구현
 ```c
-Complex::Complex()
-{
-    /* default constructor*/
-    this->re = 0.0;
-    this->im = 0.0;
-}
-Complex::Complex(double re)
-{
-    /* convert constructor*/
-    this->re = re;
-    this->im = 0.0;
-}
+
 Complex::Complex(double re, double im)
 {
     /* ordinary constructor*/
@@ -206,10 +203,12 @@ double Complex::imag()
 ```
 ### main.cpp
 #### 생성자 호출
+  - c4 : 같은 클래스 타입의 객체를 가지고 객체를 생성
 ```c
 Complex c1;
 Complex c2 = 3.0;
 Complex c3(3.0, 4.0);
+Comcplex c4 = c3;
 ```
 #### 복소수 더하기
   - 함수의 인자로 c1 + c2 를 넘김
