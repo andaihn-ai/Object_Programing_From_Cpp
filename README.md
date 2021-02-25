@@ -53,6 +53,31 @@ String클래스는 포인터를 맴버 변수로 가진다.
     void set_str(const char * str);
 
 ```
+#### default 인자
+```c
+    String(const char * str = NULL);
+```
+#### 더하기 연산자 정의
+  - 반환타입은 const String 타입
+  - 함수이름은 String클래스 안의 operator+
+  - 인자는 String타입을 reference로 받아온다
+  - 내용이 바뀌지 않기 때문에 const 맴버함수
+```c
+    const String operator+(const String& rhs) const;
+```
+#### 출력하는 함수정의
+  - class선언
+  - 전역함수로 연산자중복
+```c
+    class String;
+    std::ostream& operator<<(std::ostream& out, const String& rhs);
+```
+#### 힙상에 있는 문자열을 가리키는 함수정의
+  - 더하기 맴버함수
+  - String(const char * str = NULL); 와 구별하기 위해서(오버로딩 충돌) 의미없는 인자인 bool 인자를 두 번째 인자로 받는다.
+```c
+    void set_str(const char * str, bool);
+```
 ### string.cpp
 #### 생성자 구현
 ```c
@@ -199,7 +224,43 @@ String클래스는 포인터를 맴버 변수로 가진다.
     }
 ```
 
+#### 더하기 연산자 함수 구현
 
+  - 문자열의 길이를 모르기 때문에 임시로 공간을 할당한다.
+  - string타입의 result 객체를 만든다. 
+  - 버퍼(임시공간)에 this-> 복사
+  - 버퍼에 rhs.str을 더한다
+  - result 객체에 버퍼를 넘겨준다
+  - result를 반환한다.
+
+```c
+    const String String::operator+(const String& rhs) const
+    {
+        char *buf = new char[this->len + rhs.len + 1];
+        assert(buf );
+        strcpy(buf, this->str);
+        strcat(buf, rhs.str);
+
+        String result(buf, true);
+
+        return result;
+    }
+
+```
+#### 출력함수 구현
+```c
+
+    std::ostream& operator<<(std::ostream& out, const String& rhs)
+    {
+        return out << rhs.c_str();
+    }
+```
+#### 힙상에 있는 문자열을 가리키는 함수구현
+  - 더하기 맴버함수
+  - String(const char * str = NULL); 와 구별하기 위해서(오버로딩 충돌) 의미없는 인자인 bool 인자를 두 번째 인자로 받는다.
+```c
+    void set_str(const char * str, bool);
+```
 ### main.cpp
   - default생성자
   - 변환생성자
