@@ -154,6 +154,7 @@ double Complex::imag() const
     const Complex c5(3.0,4.0);
     double re = c5.real();
 ```
+
 #### 완성된 main.cpp
 ```c
 #include <iostream>
