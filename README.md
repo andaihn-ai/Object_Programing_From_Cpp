@@ -6,6 +6,7 @@ C++을 통해 객체 지향 프로그래밍을 학습합니다.
   - 통해 실수를 찍어내는 클래스를 만들어 사용해봅니다.
 
 ### complex.h
+
 ### cout에 직접 구현한 coplex형 객체를 바로 출력
   - std::cout << c1;의 형태
   - std::cout.operator<<(c1) 맴버함수로 정의 못함
@@ -20,6 +21,8 @@ class Complex;
 
 std::ostream& operator<<(std::ostream& out, /* const */Complex& rhs);
 ```
+
+#### 연산 전역함수 정의
 ```c
 Complex operator+(Complex& lhs, Complex& rhs);
 Complex operator-(Complex& lhs, Complex& rhs);
@@ -74,6 +77,12 @@ std::ostream& operator<<(std::ostream& out, /* const */Complex& rhs)
     return out;
 }
 ```
+
+#### 연산 전역함수 구현
+```c
+
+```
+
 #### 완성된 complex.cpp
 ```c
 #include <iostream>
@@ -138,30 +147,12 @@ double Complex::imag() const
 
 ```
 ### main.cpp
-#### 생성자 호출
-  - c4 : 같은 클래스 타입의 객체를 가지고 객체를 생성
+#### const 맴버함수
+ - 상수 객체인 경우에 const맴버 함수만 호출할 수 있다.
+ - read only형태로 동작하는 함수는 const맴버 함수로 만들어준다.
 ```c
-Complex c1;
-Complex c2 = 3.0;
-Complex c3(3.0, 4.0);
-```
-
-#### 복사 생성자 호출
-```c
-Comcplex c4 = c3;
-```
-
-#### daisy-chain
-  - c5 = c4 = c3
-  - Complex& Complex::operator=(const Complex& rhs)
-#### 복소수 비교
-  - c1 과 c3가 같은지 비교한다.
-```c
-if(c1.real() == c3.real() && c1.imag() == c3.imag()){
-    std::cout << "c1 and c3 are equal" << std::endl;
-}else{
-    std::cout << "c1 and c3 are not equal" << std::endl;
-}
+    const Complex c5(3.0,4.0);
+    double re = c5.real();
 ```
 #### 완성된 main.cpp
 ```c
@@ -186,7 +177,8 @@ int main()
     std::cout << "c3 : "<< c3 << std::endl;
     std::cout << "c4 : "<< c4 << std::endl;
     
-    std::cout << c1;  
+   //std::cout << c1;  
+
     if(c1 == c3){
         std::cout << "c3 and c5 are equal" << std::endl;
     }else{
@@ -194,7 +186,7 @@ int main()
     }
 
     const Complex c5(3.0,4.0);
-    c5.real(5.0);
+    double re = c5.real();
     return 0 ;     
 
 
