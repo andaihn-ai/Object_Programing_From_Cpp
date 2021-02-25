@@ -138,7 +138,9 @@ bool Complex::operator==(const Complex& rhs){
 }
 ```
 #### 더하기 연산자 함수 구현
-  - 
+  - const Complex& rhs를 인자로 받는다.
+  - 더하기의 결과는 Complex형으로 반환한다.
+  - Complex형의 result 객체를 생성해 실수부는 실수부끼리, 허수부는 허수부끼리 연산하여 넘겨준다.
 ```c
 Complex Complex::operator+(const Complex& rhs){
     Complex result(this->re + rhs.re, this->im + rhs.im);
@@ -146,7 +148,9 @@ Complex Complex::operator+(const Complex& rhs){
 }
 ```
 #### 빼기 연산자 함수 구현
-  - 
+  - const Complex& rhs를 인자로 받는다.
+  - 빼기의 결과는 Complex형으로 반환한다.
+  - Complex형의 result 객체를 생성해 실수부는 실수부끼리, 허수부는 허수부끼리 연산하여 넘겨준다.
 ```c
 Complex Complex::operator-(const Complex& rhs){
     Complex result(this->re - rhs.re, this->im - rhs.im);
