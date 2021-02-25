@@ -6,7 +6,7 @@ C++을 통해 객체 지향 프로그래밍을 학습합니다.
   - 통해 실수를 찍어내는 클래스를 만들어 사용해봅니다.
 #### 함수중복
   - 같은 이름의 함수 
-  - 단, 함수 인자가 달라야함 (type or 갯수)
+  - 단, 함수 인자가 달라야한다.(type or 갯수)
   - one-interface multi-method
 
 ### complex.h
@@ -34,6 +34,27 @@ public:
 double re;
 double im;
 ```
+
+#### 일반생성자(ordinary constructor)
+  - 인자를 지정해 놓고 값을 넘기지 않을 경우 지정해논 값으로 받음
+```c
+Complex(double re = 0.0, double im = 0.0);
+```
+
+#### 복사생성자(copy constructor)
+  - 같은 클래스의 객체로 객체를 만들때 호출된다.
+  - reference를 사용하여 복사생성자를 만든다.
+  - 클래스 타입의 인자를 넘길때 오버헤드를 줄인다.
+```c
+Complex(const Complex &rhs);
+```
+
+#### 소멸자 정의 (destructor)
+
+```c
+~Complex();
+```
+
 #### public 영역에 연산자 맴버 함수 정의
   
 ```c
@@ -42,42 +63,13 @@ bool operator==(const Complex& rhs);
 
 Complex operator+(const Complex& rhs);
 Complex operator-(const Complex& rhs);
+```
 
-
-```
-#### 생성자 정의 (constructor)
-  - 같은 이름의 다른 인자를 갖은 함수를 선언한다.
-  - 맴버 함수를 초기화 한다.
-  - Complex::complex() 의 형태이다.
-  - 객체가 생성될 때 자동적으로 호출된다.
-  - 반환타입은 없다.
-  - 함수 중복이 가능하다.
-
-#### 일반생성자(ordinary constructor)
-  - 인자를 지정해 놓고 값을 넘기지 않을 경우 지정해논 값으로 받음
-```c
-Complex(double re = 0.0, double im = 0.0);
-```
-#### 복사생성자(copy constructor)
-  - reference를 사용하여 복사생성자를 만듬
-  - 클래스 타입을 인자로 넘길때 오버헤드를 줄임
-```c
-Complex(const Complex &rhs);
-```
-#### 소멸자 정의 (destructor)
-  - 객체가 소멸할때 자동적으로 호출된다.
-  - 맴버 함수를 cleanup 한다.
-  - Complex::~Complex() 의 형태이다.
-  - 반환타입은 없다. 
-  - 함수 중복이 불가능 하다
-```c
-~Complex();
-```
 #### 완성된 complex.h
 ```c
 #ifndef COMPLEX_H
 #define COMPLEX_H
-class Complex       /*사용자 정의형 클래스*/
+class Complex    
 {
   
 private: 
@@ -95,8 +87,6 @@ public:
     Complex operator+(const Complex& rhs);
     Complex operator-(const Complex& rhs);
     
-
-
     void real(double re);
     void imag(double im);
 
@@ -107,7 +97,6 @@ public:
 ```
 ### complex.cpp
 #### 생성자 구현
-  -  넘어오는 인자에 해당하는 함수들을 구현
 ```c
 
 Complex::Complex(double re, double im)
@@ -208,16 +197,29 @@ double Complex::imag()
 Complex c1;
 Complex c2 = 3.0;
 Complex c3(3.0, 4.0);
+```
+
+#### 복사 생성자 호출
+```c
 Comcplex c4 = c3;
 ```
-#### 복소수 더하기
-  - 함수의 인자로 c1 + c2 를 넘김
+
+#### 복소수 더하기 연산
+
+##### ㅐㅐ식 더하기 연산
+  - c5.operator=(c2 +c3)
+  - c5.operator=(c2.operator+(c3))
+
+##### 전역변수식 더하기 연산
+  - ::.operator=(c5, c2 +c3)
+  - ::operator=(c5, ::operator+(c2, c3))
 ```c
 Complex c4;
 c4.real(c1.real()+c2.real());
 c4.imag(c1.imag()+c2.imag());
 std::cout << "c4 : (" << c4.real() << ", " << c4.imag() << "i)" << std::endl;
 ```
+
 #### 복소수 비교
 - c1 과 c3가 같은지 비교한다.
 ```c
