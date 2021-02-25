@@ -2,7 +2,7 @@
 C++을 통해 객체 지향 프로그래밍을 학습합니다.
 ## complex2
 ### complex
-  - 실수오 허수로 이루어진 수
+  - 실수와 허수로 이루어진 수
   - 통해 실수를 찍어내는 클래스를 만들어 사용해봅니다.
 
 ### complex.h
@@ -221,21 +221,6 @@ Complex c3(3.0, 4.0);
 Comcplex c4 = c3;
 ```
 
-#### 복소수 더하기 연산
-
-##### ㅐㅐ식 더하기 연산
-  - c5.operator=(c2 +c3)
-  - c5.operator=(c2.operator+(c3))
-
-##### 전역변수식 더하기 연산
-  - ::.operator=(c5, c2 +c3)
-  - ::operator=(c5, ::operator+(c2, c3))
-```c
-Complex c4;
-c4.real(c1.real()+c2.real());
-c4.imag(c1.imag()+c2.imag());
-std::cout << "c4 : (" << c4.real() << ", " << c4.imag() << "i)" << std::endl;
-```
 #### daisy-chain
   - c5 = c4 = c3
   - Complex& Complex::operator=(const Complex& rhs)
