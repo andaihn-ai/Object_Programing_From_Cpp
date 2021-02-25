@@ -1,5 +1,6 @@
 # Object_Programing_From_Cpp
 C++을 통해 객체 지향 프로그래밍을 학습합니다.
+## complex2
 ### complex
   - 실수오 허수로 이루어진 수
   - 통해 실수를 찍어내는 클래스를 만들어 사용해봅니다.
@@ -71,25 +72,26 @@ Complex(double re, double im);
 class Complex       /*사용자 정의형 클래스*/
 {
   
-private:        /*맴버변수*/
-    /*복소수는 실수부와 허수부로 구성된다.*/
-    double re;      /*real part : 실수부  */
-    double im;      /*imagenary part : 허수부 */
+private: 
+    double re;     
+    double im;     
     
-public:         /*맴버함수*/
-    /*생성자*/
-    Complex();
-    Complex(double re);
-    Complex(double re, double im);
-    
-    /*소멸자*/
+public:       
+    Complex(double re = 0.0, double im = 0.0);
+    Complex(const Complex &rhs);
     ~Complex();
     
-    /*setting*/
+    Complex& operator=(const Complex& rhs);
+    bool operator==(const Complex& rhs);
+
+    Complex operator+(const Complex& rhs);
+    Complex operator-(const Complex& rhs);
+    
+
+
     void real(double re);
     void imag(double im);
 
-    /*get*/
     double real();
     double imag();
 };
@@ -154,27 +156,35 @@ double Complex::imag()
 ```c
 #include "complex.h"
 
-Complex::Complex()
-{
-    /* default constructor*/
-    this->re = 0.0;
-    this->im = 0.0;
-}
-Complex::Complex(double re)
-{
-    /* convert constructor*/
-    this->re = re;
-    this->im = 0.0;
-}
 Complex::Complex(double re, double im)
 {
-    /* ordinary constructor*/
     this->re = re;
     this->im = im;
+}
+
+Complex::Complex(const Complex& rhs){
+    this->re = rhs.re;
+    this->im = rhs.im;
 }
 Complex::~Complex()
 {
 
+}
+Complex& Complex::operator=(const Complex& rhs){
+    this->re = rhs.re;
+    this->im = rhs.im;
+    return *this;
+}
+bool Complex::operator==(const Complex& rhs){
+    return this->re == rhs.re && this->im == rhs.im;
+}
+Complex Complex::operator+(const Complex& rhs){
+    Complex result(this->re + rhs.re, this->im + rhs.im);
+    return result;
+}
+Complex Complex::operator-(const Complex& rhs){
+    Complex result(this->re - rhs.re, this->im - rhs.im);
+    return result;
 }
 void Complex::real(double re)
 {
@@ -225,28 +235,31 @@ if(c1.real() == c3.real() && c1.imag() == c3.imag()){
 
 int main()
 {
-    Complex c1;                 /*(0.0, 0.0) */
-    /*Complex c2(3.0);*/        /*(3.0, 0.0) */
+    Complex c1;                
     Complex c2 = 3.0;
-    Complex c3(3.0, 4.0);       /*(3.0, 4.0) */
+    Complex c3(3.0, 4.0);      
+    Complex c4 = c3;
 
-    c1.real(3.0);
-    c1.imag(4.0);
+    Complex c5;
+    c5  = c3;
 
+    c1 = 3.0;           /*c1.operator=(3.0) or ::operator=(c1,3.0)*/
+
+    c4 = c2 + c3;       /* c5.operator=(c2 +c3) --> c5.operator=(c2.operator+(c3))*/
+                        /* ::.operator=(c5, c2 +c3) --> ::operator=(c5, ::operator+(c2, c3))*/
+
+    c5 = c2 -c3;                                
     std::cout << "c1 : (" << c1.real() << ", " << c1.imag() << "i)" << std::endl;
     std::cout << "c2 : (" << c2.real() << ", " << c2.imag() << "i)" << std::endl;
     std::cout << "c3 : (" << c3.real() << ", " << c3.imag() << "i)" << std::endl;
-    
-    Complex c4;
-    c4.real(c1.real()+c2.real());
-    c4.imag(c1.imag()+c2.imag());
     std::cout << "c4 : (" << c4.real() << ", " << c4.imag() << "i)" << std::endl;
-
-
-    if(c1.real() == c3.real() && c1.imag() == c3.imag()){
-        std::cout << "c1 and c3 are equal" << std::endl;
+    std::cout << "c5 : (" << c5.real() << ", " << c5.imag() << "i)" << std::endl;
+    
+ 
+    if(c3.real() == c5.real() && c3.imag() == c5.imag()){
+        std::cout << "c3 and c5 are equal" << std::endl;
     }else{
-        std::cout << "c1 and c3 are not equal" << std::endl;
+        std::cout << "c3 and c5 are not equal" << std::endl;
     }
 
     return 0 ;       /*소멸자 */
