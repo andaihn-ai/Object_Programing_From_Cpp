@@ -113,8 +113,9 @@ Complex::~Complex()
 }
 ```
 #### 치환연산 함수 구현
- - this->re 에 인자로 받아온 rhs.re 값을 넣어준다.
- - this->im 에 인자로 받아온 rhs.im 값을 넣어준다.
+  - const Complex T 타입의 객체를 인자로 받아온다.
+  - return * this 로 맴버함수를 호출한 자기자신 객체를 가르킨다.
+  - 반환타입은 daisy-chaining을 위해 Complex& T타입의 객체로 한다.
 ```c
 Complex& Complex::operator=(const Complex& rhs){
     this->re = rhs.re;
@@ -123,10 +124,8 @@ Complex& Complex::operator=(const Complex& rhs){
 }
 ```
 #### 비교연산자 함수 구현
- - 인자로 Complex형 객체를 받는다.
- - 오버헤드를 줄이기위해 reference를 사용한다.
- - 값이 바뀌지 않기 때문에 const를 붙여준다
- - return this->re == rhs.re && this->im == rhs.im를 통해 bool 형식의 리턴값을 받는다.
+  - const Complex 타입의 객체를 인자로 받아온다.
+  - return this->re == rhs.re && this->im == rhs.im를 통해 bool 형식의 리턴값을 받는다.
 ```c
 bool Complex::operator==(const Complex& rhs){
     return this->re == rhs.re && this->im == rhs.im;
@@ -231,9 +230,11 @@ c4.real(c1.real()+c2.real());
 c4.imag(c1.imag()+c2.imag());
 std::cout << "c4 : (" << c4.real() << ", " << c4.imag() << "i)" << std::endl;
 ```
-
+#### daisy-chain
+  - c5 = c4 = c3
+  - Complex& Complex::operator=(const Complex& rhs)
 #### 복소수 비교
-- c1 과 c3가 같은지 비교한다.
+  - c1 과 c3가 같은지 비교한다.
 ```c
 if(c1.real() == c3.real() && c1.imag() == c3.imag()){
     std::cout << "c1 and c3 are equal" << std::endl;
@@ -258,8 +259,7 @@ int main()
 
     c1 = 3.0;           /*c1.operator=(3.0) or ::operator=(c1,3.0)*/
 
-    c4 = c2 + c3;       /* c5.operator=(c2 +c3) --> c5.operator=(c2.operator+(c3))*/
-                        /* ::.operator=(c5, c2 +c3) --> ::operator=(c5, ::operator+(c2, c3))*/
+    c4 = c2 + c3;       
 
     c5 = c2 -c3;                                
     std::cout << "c1 : (" << c1.real() << ", " << c1.imag() << "i)" << std::endl;
