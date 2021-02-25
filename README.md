@@ -2,7 +2,6 @@
 C++을 통해 객체 지향 프로그래밍을 학습합니다.
 
 ### Rational
-  - 실수오 허수로 이루어진 수
   - 통해 실수를 찍어내는 클래스를 만들어 사용해봅니다.
 #### 함수중복
   - 같은 이름의 함수 
@@ -12,7 +11,7 @@ C++을 통해 객체 지향 프로그래밍을 학습합니다.
 ### complex.h
 #### 사용자 정의형 클래스 생성
 ```c
-class Complex      
+class Rational      
 {
   
 };
@@ -28,44 +27,44 @@ private:
 ```c
 public: 
 ```
-#### double형 타입의 맴버 변수 정의
-  - 실수부, 허수부
+#### int형 타입의 맴버 변수 정의
+  - 분자(number), 분모(denominator)
 ```c
-double re;
-double im;
+int num;
+int den;
 ```
 #### 생성자 정의 (constructor)
   - 같은 이름의 다른 인자를 갖은 함수를 선언한다.
   - 맴버 함수를 초기화 한다.
-  - Complex::complex() 의 형태이다.
+  - Rational::Rational() 의 형태이다.
   - 객체가 생성될 때 자동적으로 호출된다.
   - 반환타입은 없다.
   - 함수 중복이 가능하다.
 #### 기본생성자(convert constructor)
   - 인자 0개
 ```c
-Complex();
+Rational();
 ```
 #### 변환생성자(default constructor)
   - 인자 1개
 ```c
-Complex(double re);
+Rational(int num);
 ```
 #### 일반생성자(ordinary constructor)
   - 인자 2개
 ```c
-Complex(double re, double im);
+Rational(int num, int den);
 ```
 #### 소멸자 정의 (destructor)
   - 객체가 소멸할때 자동적으로 호출된다.
   - 맴버 함수를 cleanup 한다.
-  - Complex::~Complex() 의 형태이다.
+  - Rational::~Rational() 의 형태이다.
   - 반환타입은 없다. 
   - 함수 중복이 불가능 하다
 ```c
-~Complex();
+~Rational();
 ```
-#### 완성된 complex.h
+#### 완성된 rational.h
 ```c
 #ifndef RATIONAL_H
 #define RATIONAL_H
@@ -89,58 +88,47 @@ public:
 
 #endif
 ```
-### complex.cpp
+### rational.cpp
 #### 생성자 구현
   -  넘어오는 인자에 해당하는 함수들을 구현
 ```c
-Complex::Complex()
-{
-    /* default constructor*/
-    this->re = 0.0;
-    this->im = 0.0;
+Rational::Rational(){
+    this->num = 0;
+    this->den = 1;
 }
-Complex::Complex(double re)
-{
-    /* convert constructor*/
-    this->re = re;
-    this->im = 0.0;
+Rational::Rational(int num){
+    this->num = num;
+    this->den = 1;
 }
-Complex::Complex(double re, double im)
-{
-    /* ordinary constructor*/
-    this->re = re;
-    this->im = im;
+Rational::Rational(int num, int den){
+    this->num = num;
+    this->den = den;
 }
+
 ```
 
 #### 소멸자 구현
 ```c
-Complex::~Complex()
-{
+Rational::~Rational(){
 
 }
 ```
 #### setting 함수 구현
 ```c
-void Complex::real(double re)
-{
-    this->re = re;
+void Rational::number(int num){
+    this->num = num;
 }
-void Complex::imag(double im)
-{
-    this->im = im;
+void Rational::denominator(int den){
+    this->den = den;
 }
-
 ```
 #### get 함수 구현
 ```c
-double Complex::real()
-{
-    return this->re;
+int Rational::number(){
+    return this->num;
 }
-double Complex::imag()
-{
-    return this->im;
+int Rational::denominator(){
+    return this->den;
 }
 
 ```
@@ -180,26 +168,25 @@ int Rational::denominator(){
 ### main.cpp
 #### 생성자 호출
 ```c
-Complex c1;
-Complex c2 = 3.0;
-Complex c3(3.0, 4.0);
+Rational r1;        /*(0/1)*/
+Rational r2(3);     /*(3/1)*/
+Rational r3(3,4);    /*(3/4)*/
+
 ```
-#### 복소수 더하기
-  - 함수의 인자로 c1 + c2 를 넘김
+#### r1에 r3대입
+  - 함수의 인자로 r3값을 넘김
 ```c
-Complex c4;
-c4.real(c1.real()+c2.real());
-c4.imag(c1.imag()+c2.imag());
-std::cout << "c4 : (" << c4.real() << ", " << c4.imag() << "i)" << std::endl;
+r1.number(r3.number());
+r1.denominator(r3.denominator());
 ```
-#### 복소수 비교
-- c1 과 c3가 같은지 비교한다.
+#### 유리수 비교
+- r1 과 r3가 같은지 비교한다.
 ```c
-if(c1.real() == c3.real() && c1.imag() == c3.imag()){
-    std::cout << "c1 and c3 are equal" << std::endl;
-}else{
-    std::cout << "c1 and c3 are not equal" << std::endl;
-}
+ if(r1.number() == r3.number() && r1.denominator() == r3.denominator()){
+     std::cout << "r1 and r3 are equal" << std::endl;
+ }else{
+     std::cout << "r1 and r3 are not equal" << std::endl;
+ }
 ```
 #### 완성된 main.cpp
 ```c
