@@ -113,8 +113,8 @@ Complex::~Complex()
 }
 ```
 #### 치환연산 함수 구현
-  - const Complex T 타입의 객체를 인자로 받아온다.
-  - return * this 로 맴버함수를 호출한 자기자신 객체를 가르킨다.
+  - const Complex T타입의 객체를 인자로 받아온다.
+  - return * this 로 맴버함수를 호출한 자기 자신 객체를 가르킨다.
   - 반환타입은 daisy-chaining을 위해 Complex& T타입의 객체로 한다.
 ```c
 Complex& Complex::operator=(const Complex& rhs){
