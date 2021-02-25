@@ -4,10 +4,6 @@ C++을 통해 객체 지향 프로그래밍을 학습합니다.
 ### complex
   - 실수오 허수로 이루어진 수
   - 통해 실수를 찍어내는 클래스를 만들어 사용해봅니다.
-#### 함수중복
-  - 같은 이름의 함수 
-  - 단, 함수 인자가 달라야한다.(type or 갯수)
-  - one-interface multi-method
 
 ### complex.h
 #### 사용자 정의형 클래스 생성
@@ -17,17 +13,7 @@ class Complex
   
 };
 ```
-#### 내부구현이 들어갈 private 영역
-  - 맴버 변수 
-```c
-private: 
-```
-#### 인터페이스 구현이 들어갈 public 영역
-  - 맴버 함수
-  - public쪽의 맴버 함수를 통해서 private쪽의 맴버 변수에 접근
-```c
-public: 
-```
+
 #### private 영역에 double형 타입의 맴버 변수 정의
   - 실수부, 허수부
 ```c
@@ -36,7 +22,9 @@ double im;
 ```
 
 #### 일반생성자(ordinary constructor)
-  - 인자를 지정해 놓고 값을 넘기지 않을 경우 지정해논 값으로 받음
+  - 기본인자(default argument)
+  - one-interface multi-method
+  - 인자값이 제공 안됐을 때 대신 제공되는 값
 ```c
 Complex(double re = 0.0, double im = 0.0);
 ```
@@ -63,6 +51,17 @@ bool operator==(const Complex& rhs);
 
 Complex operator+(const Complex& rhs);
 Complex operator-(const Complex& rhs);
+```
+#### public 영역에 setting 맴버 함수 정의
+```c
+void real(double re);
+void imag(double im);
+
+```
+#### public 영역에 get 맴버 함수 정의
+```c
+double real();
+double imag();
 ```
 
 #### 완성된 complex.h
@@ -101,7 +100,6 @@ public:
 
 Complex::Complex(double re, double im)
 {
-    /* ordinary constructor*/
     this->re = re;
     this->im = im;
 }
@@ -114,30 +112,44 @@ Complex::~Complex()
 
 }
 ```
-#### setting 함수 구현
+#### 치환연산 함수 구현
+ - this->re 에 인자로 받아온 rhs.re 값을 넣어준다.
+ - this->im 에 인자로 받아온 rhs.im 값을 넣어준다.
 ```c
-void Complex::real(double re)
-{
-    this->re = re;
+Complex& Complex::operator=(const Complex& rhs){
+    this->re = rhs.re;
+    this->im = rhs.im;
+    return *this;
 }
-void Complex::imag(double im)
-{
-    this->im = im;
+```
+#### 비교연산자 함수 구현
+ - 인자로 Complex형 객체를 받는다.
+ - 오버헤드를 줄이기위해 reference를 사용한다.
+ - 값이 바뀌지 않기 때문에 const를 붙여준다
+ - return this->re == rhs.re && this->im == rhs.im를 통해 bool 형식의 리턴값을 받는다.
+```c
+bool Complex::operator==(const Complex& rhs){
+    return this->re == rhs.re && this->im == rhs.im;
+}
+```
+#### 더하기 연산자 함수 구현
+  - 
+```c
+Complex Complex::operator+(const Complex& rhs){
+    Complex result(this->re + rhs.re, this->im + rhs.im);
+    return result;
+}
+```
+#### 빼기 연산자 함수 구현
+  - 
+```c
+Complex Complex::operator-(const Complex& rhs){
+    Complex result(this->re - rhs.re, this->im - rhs.im);
+    return result;
 }
 
 ```
-#### get 함수 구현
-```c
-double Complex::real()
-{
-    return this->re;
-}
-double Complex::imag()
-{
-    return this->im;
-}
 
-```
 #### 완성된 complex.cpp
 ```c
 #include "complex.h"
