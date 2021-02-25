@@ -1,74 +1,45 @@
 # Object_Programing_From_Cpp
 C++을 통해 객체 지향 프로그래밍을 학습합니다.
-## complex2
+## complex3
 ### complex
   - 실수와 허수로 이루어진 수
   - 통해 실수를 찍어내는 클래스를 만들어 사용해봅니다.
 
 ### complex.h
-#### 사용자 정의형 클래스 생성
+### cout에 직접 구현한 coplex형 객체를 바로 출력
+  - std::cout << c1;의 형태
+  - std::cout.operator<<(c1) 맴버함수로 정의 못함
+  - ::operator<<(std::cout,c1) 반드시 전역함수로 정의함
+  - cout 은 ostream(라이브러리 함수)객체이므로 전역함수를 통해 접근한다.
+
+#### 출력하는 전역함수 정의
+ - 첫 번째 인자로 ostream클래스 타입의 cout이 값이 바뀌기 위해 reference로 들어온다.
+ - 
 ```c
-class Complex      
-{
-  
-};
+class Complex;
+
+std::ostream& operator<<(std::ostream& out, /* const */Complex& rhs);
 ```
-
-#### private 영역에 double형 타입의 맴버 변수 정의
-  - 실수부, 허수부
 ```c
-double re;
-double im;
-```
-
-#### 일반생성자 정의(ordinary constructor)
-  - 기본인자(default argument)
-  - one-interface multi-method
-  - 인자값이 제공 안됐을 때 대신 제공되는 값
-```c
-Complex(double re = 0.0, double im = 0.0);
-```
-
-#### 복사생성자 (copy constructor)
-  - 같은 클래스의 객체로 객체를 만들때 호출된다.
-  - reference를 사용하여 복사생성자를 만든다.
-  - 클래스 타입의 인자를 넘길때 오버헤드를 줄인다.
-```c
-Complex(const Complex &rhs);
-```
-
-#### 소멸자 정의 (destructor)
-
-```c
-~Complex();
-```
-
-#### public 영역에 연산자 맴버 함수 정의
-  
-```c
-Complex& operator=(const Complex& rhs);
-bool operator==(const Complex& rhs);
-
-Complex operator+(const Complex& rhs);
-Complex operator-(const Complex& rhs);
-```
-#### public 영역에 setting 맴버 함수 정의
-```c
-void real(double re);
-void imag(double im);
+Complex operator+(Complex& lhs, Complex& rhs);
+Complex operator-(Complex& lhs, Complex& rhs);
+    
 
 ```
-#### public 영역에 get 맴버 함수 정의
-```c
-double real();
-double imag();
-```
-
 #### 완성된 complex.h
 ```c
 #ifndef COMPLEX_H
 #define COMPLEX_H
-class Complex    
+#include <iostream>
+class Complex;
+
+std::ostream& operator<<(std::ostream& out, Complex& rhs);
+
+Complex operator+(Complex& lhs, Complex& rhs);
+Complex operator-(Complex& lhs, Complex& rhs);
+    
+
+class Complex     
 {
   
 private: 
@@ -81,83 +52,47 @@ public:
     ~Complex();
     
     Complex& operator=(const Complex& rhs);
-    bool operator==(const Complex& rhs);
+    bool operator==(const Complex& rhs) const;
 
-    Complex operator+(const Complex& rhs);
-    Complex operator-(const Complex& rhs);
-    
     void real(double re);
     void imag(double im);
 
-    double real();
-    double imag();
+    double real() const;
+    double imag() const;
 };
 #endif
 ```
 ### complex.cpp
-#### 생성자 구현
+#### 출력하는 전역함수 구현
+  - out이라는 레퍼런스로 cout을 aliasing
+  - 왼쪽쉬프트 연산으로 리턴값은 out(cout)이 된다.
+  - 인자로 받은 cout을 리턴해주기 위해 &로 반환한다.
 ```c
-
-Complex::Complex(double re, double im)
+std::ostream& operator<<(std::ostream& out, /* const */Complex& rhs)
 {
-    this->re = re;
-    this->im = im;
+    out << "(" << rhs.real() << "," << rhs.imag() << "i)";
+    return out;
 }
 ```
-#### 복사생성자 구현
-```c
-Complex::Complex(const Complex& rhs){
-    this->re = rhs.re;
-    this->im = rhs.im;
-}
-```
-#### 소멸자 구현
-```c
-Complex::~Complex()
-{
-
-}
-```
-#### 치환연산 함수 구현
-  - const Complex T타입의 객체를 인자로 받아온다.
-  - return * this 로 맴버함수를 호출한 자기 자신 객체를 가르킨다.
-  - 반환타입은 daisy-chaining을 위해 Complex& T타입의 객체로 한다.
-```c
-Complex& Complex::operator=(const Complex& rhs){
-    this->re = rhs.re;
-    this->im = rhs.im;
-    return *this;
-}
-```
-#### 비교연산자 함수 구현
-  - const Complex 타입의 객체를 인자로 받아온다.
-  - return this->re == rhs.re && this->im == rhs.im를 통해 bool 형식의 리턴값을 받는다.
-```c
-bool Complex::operator==(const Complex& rhs){
-    return this->re == rhs.re && this->im == rhs.im;
-}
-```
-#### 더하기 연산자 함수 구현
-  - 
-```c
-Complex Complex::operator+(const Complex& rhs){
-    Complex result(this->re + rhs.re, this->im + rhs.im);
-    return result;
-}
-```
-#### 빼기 연산자 함수 구현
-  - 
-```c
-Complex Complex::operator-(const Complex& rhs){
-    Complex result(this->re - rhs.re, this->im - rhs.im);
-    return result;
-}
-
-```
-
 #### 완성된 complex.cpp
 ```c
+#include <iostream>
 #include "complex.h"
+
+std::ostream& operator<<(std::ostream& out, const Complex& rhs)
+{
+    out << "(" << rhs.real() << "," << rhs.imag() << "i)";
+    return out;
+}
+
+Complex ::operator+(const Complex& lhs, const Complex& rhs)
+{
+    return Complex(lhs.real() + rhs.real(), lhs.imag() + rhs.imag());
+}
+Complex ::operator-(const Complex& lhs, const Complex& rhs)
+{
+    return Complex(lhs.real() - rhs.real(), lhs.imag() - rhs.imag());
+}
 
 Complex::Complex(double re, double im)
 {
@@ -165,7 +100,8 @@ Complex::Complex(double re, double im)
     this->im = im;
 }
 
-Complex::Complex(const Complex& rhs){
+Complex::Complex(const Complex& rhs)
+{
     this->re = rhs.re;
     this->im = rhs.im;
 }
@@ -173,22 +109,16 @@ Complex::~Complex()
 {
 
 }
-Complex& Complex::operator=(const Complex& rhs){
+Complex& Complex::operator=(const Complex& rhs)
+{
     this->re = rhs.re;
     this->im = rhs.im;
     return *this;
 }
-bool Complex::operator==(const Complex& rhs){
+bool Complex::operator==(const Complex& rhs)const{
     return this->re == rhs.re && this->im == rhs.im;
 }
-Complex Complex::operator+(const Complex& rhs){
-    Complex result(this->re + rhs.re, this->im + rhs.im);
-    return result;
-}
-Complex Complex::operator-(const Complex& rhs){
-    Complex result(this->re - rhs.re, this->im - rhs.im);
-    return result;
-}
+
 void Complex::real(double re)
 {
     this->re = re;
@@ -197,11 +127,11 @@ void Complex::imag(double im)
 {
     this->im = im;
 }
-double Complex::real()
+double Complex::real() const
 {
     return this->re;
 }
-double Complex::imag()
+double Complex::imag() const
 {
     return this->im;
 }
@@ -245,28 +175,27 @@ int main()
     Complex c3(3.0, 4.0);      
     Complex c4 = c3;
 
-    Complex c5;
-    c5  = c3;
 
-    c1 = 3.0;           /*c1.operator=(3.0) or ::operator=(c1,3.0)*/
+    c2 = 4.0;
 
-    c4 = c2 + c3;       
+    c2 = c1 + c3;
+    c2 = c1 - c3;          
 
-    c5 = c2 -c3;                                
-    std::cout << "c1 : (" << c1.real() << ", " << c1.imag() << "i)" << std::endl;
-    std::cout << "c2 : (" << c2.real() << ", " << c2.imag() << "i)" << std::endl;
-    std::cout << "c3 : (" << c3.real() << ", " << c3.imag() << "i)" << std::endl;
-    std::cout << "c4 : (" << c4.real() << ", " << c4.imag() << "i)" << std::endl;
-    std::cout << "c5 : (" << c5.real() << ", " << c5.imag() << "i)" << std::endl;
+    std::cout << "c1 : "<< c1 << std::endl;
+    std::cout << "c2 : "<< c2 << std::endl;
+    std::cout << "c3 : "<< c3 << std::endl;
+    std::cout << "c4 : "<< c4 << std::endl;
     
- 
-    if(c3.real() == c5.real() && c3.imag() == c5.imag()){
+    std::cout << c1;  
+    if(c1 == c3){
         std::cout << "c3 and c5 are equal" << std::endl;
     }else{
         std::cout << "c3 and c5 are not equal" << std::endl;
     }
 
-    return 0 ;       /*소멸자 */
+    const Complex c5(3.0,4.0);
+    c5.real(5.0);
+    return 0 ;     
 
 
 }
