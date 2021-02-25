@@ -21,7 +21,7 @@ double re;
 double im;
 ```
 
-#### 일반생성자(ordinary constructor)
+#### 일반생성자 정의(ordinary constructor)
   - 기본인자(default argument)
   - one-interface multi-method
   - 인자값이 제공 안됐을 때 대신 제공되는 값
@@ -29,7 +29,7 @@ double im;
 Complex(double re = 0.0, double im = 0.0);
 ```
 
-#### 복사생성자(copy constructor)
+#### 복사생성자 (copy constructor)
   - 같은 클래스의 객체로 객체를 만들때 호출된다.
   - reference를 사용하여 복사생성자를 만든다.
   - 클래스 타입의 인자를 넘길때 오버헤드를 줄인다.
@@ -104,7 +104,13 @@ Complex::Complex(double re, double im)
     this->im = im;
 }
 ```
-
+#### 복사생성자 구현
+```c
+Complex::Complex(const Complex& rhs){
+    this->re = rhs.re;
+    this->im = rhs.im;
+}
+```
 #### 소멸자 구현
 ```c
 Complex::~Complex()
