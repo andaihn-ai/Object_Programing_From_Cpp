@@ -51,7 +51,7 @@ public:
 };
 #endif
 ```
-#### Complex객체를 private으로 직접 접근 한다
+#### 전역함수를 omplex 클래스의 friend로 만들어준다
 ```c
 std::ostream& operator<<(std::ostream& out, const Complex& rhs)
 {
