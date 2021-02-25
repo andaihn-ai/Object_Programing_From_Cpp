@@ -26,7 +26,19 @@ std::ostream& operator<<(std::ostream& out, /* const */Complex& rhs);
 ```c
 Complex operator+(Complex& lhs, Complex& rhs);
 Complex operator-(Complex& lhs, Complex& rhs);
-    
+```
+#### 치환 전역함수 정의
+```c
+Complex& operator=(const Complex& rhs);
+```
+#### 비교 전역함수 정의
+```c
+ bool operator==(const Complex& rhs) const;
+```
+#### const 맴버함수 정의
+```c
+ double real() const;
+ double imag() const;
 
 ```
 #### 완성된 complex.h
@@ -71,7 +83,7 @@ public:
   - 왼쪽쉬프트 연산으로 리턴값은 out(cout)이 된다.
   - 인자로 받은 cout을 리턴해주기 위해 &로 반환한다.
 ```c
-std::ostream& operator<<(std::ostream& out, /* const */Complex& rhs)
+std::ostream& operator<<(std::ostream& out,  const Complex& rhs)
 {
     out << "(" << rhs.real() << "," << rhs.imag() << "i)";
     return out;
@@ -80,6 +92,29 @@ std::ostream& operator<<(std::ostream& out, /* const */Complex& rhs)
 
 #### 연산 전역함수 구현
 ```c
+Complex ::operator+(const Complex& lhs, const Complex& rhs)
+{
+     return Complex(lhs.real() + rhs.real(), lhs.imag() + rhs.imag());
+}
+Complex ::operator-(const Complex& lhs, const Complex& rhs)
+{
+     return Complex(lhs.real() - rhs.real(), lhs.imag() - rhs.imag());
+}
+```
+#### 치환 전역함수 구현
+```c
+Complex& Complex::operator=(const Complex& rhs)
+{
+    this->re = rhs.re;
+    this->im = rhs.im;
+    return *this;
+}
+```
+#### 비교 전역함수 구현
+```c
+bool Complex::operator==(const Complex& rhs)const{
+    return this->re == rhs.re && this->im == rhs.im;
+}
 
 ```
 
@@ -90,17 +125,20 @@ std::ostream& operator<<(std::ostream& out, /* const */Complex& rhs)
 
 std::ostream& operator<<(std::ostream& out, const Complex& rhs)
 {
-    out << "(" << rhs.real() << "," << rhs.imag() << "i)";
+    out << "(" << rhs.re << "," << rhs.im << "i)";
+   // out << "(" << rhs.real() << "," << rhs.imag() << "i)";
     return out;
 }
 
 Complex ::operator+(const Complex& lhs, const Complex& rhs)
 {
-    return Complex(lhs.real() + rhs.real(), lhs.imag() + rhs.imag());
+    return Complex(lhs.re + rhs.re, lhs.im + rhs.im);
+   // return Complex(lhs.real() + rhs.real(), lhs.imag() + rhs.imag());
 }
 Complex ::operator-(const Complex& lhs, const Complex& rhs)
 {
-    return Complex(lhs.real() - rhs.real(), lhs.imag() - rhs.imag());
+    return Complex(lhs.re - rhs.re, lhs.im - rhs.im);
+   // return Complex(lhs.real() - rhs.real(), lhs.imag() - rhs.imag());
 }
 
 Complex::Complex(double re, double im)
@@ -128,14 +166,6 @@ bool Complex::operator==(const Complex& rhs)const{
     return this->re == rhs.re && this->im == rhs.im;
 }
 
-void Complex::real(double re)
-{
-    this->re = re;
-}
-void Complex::imag(double im)
-{
-    this->im = im;
-}
 double Complex::real() const
 {
     return this->re;
@@ -143,6 +173,15 @@ double Complex::real() const
 double Complex::imag() const
 {
     return this->im;
+}
+
+void Complex::real(double re)
+{
+    this->re = re;
+}
+void Complex::imag(double im)
+{
+    this->im = im;
 }
 
 ```
