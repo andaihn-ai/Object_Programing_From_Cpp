@@ -78,6 +78,50 @@ String클래스는 포인터를 맴버 변수로 가진다.
 ```c
     void set_str(const char * str, bool);
 ```
+#### 완성된 string.h
+```c
+#ifndef STRING_H
+#define STRING_H
+#include <iostream>
+#include <cstring>
+
+class String{
+
+friend std::ostream& operator<<(std::ostream& out, const String& rhs);
+
+private:
+char * str;
+int len;
+
+String(char * str, bool );
+
+void set_str(const char * str);
+
+public:
+
+    String(const char * str = NULL);
+    String(const String & rhs);
+    ~String();
+
+   
+    String& operator=(const String & rhs);
+    String& operator=(const char * str);
+    
+    String* operator&(const String & rhs);
+    //const String * operator&() const;
+
+    bool operator==(const String & rhs) const;
+
+    const String operator+(const String& rhs) const;
+
+    const char * c_str() const;
+    int lenght() const;
+
+    
+};
+
+#endif
+```
 ### string.cpp
 #### 생성자 구현
 ```c
@@ -261,6 +305,119 @@ String클래스는 포인터를 맴버 변수로 가진다.
 ```c
     void set_str(const char * str, bool);
 ```
+#### 완성된 string.cpp
+```c
+#include <iostream>
+#include <cstring>
+#include <assert.h>
+#include "string.h"
+
+std::ostream& operator<<(std::ostream& out, const String& rhs)
+{
+    return out << rhs.str;
+
+}
+
+// 반복되는 코드를 줄이는 함수
+void String::set_str(const char * str)
+{
+    if(str ){
+        
+        this->str = new char[strlen(str)+1];
+        assert(this->str );
+        strcpy(this->str, str);
+
+        this->len = strlen(str);
+    }else{
+        this->str = new char[1];
+        assert(this->str );
+        this->str[0] = '\0';
+
+        this->len = 0;
+    }
+}
+
+String::String(char * str, bool)
+{
+    this->str = str;
+    this->len = strlen(str);
+
+}
+
+String::String(const char * str)
+{
+    this->set_str(str);
+}
+
+/*-------------------------------------------------------------*/
+//self-assignment test
+//자기 자신을 치환할때 원본이 delete로 날라가는 문제를 해결하기 위해
+String::String(const String & rhs)
+{
+    this -> set_str(rhs.str);
+}
+
+String::~String()
+{
+    delete [] this->str;
+}
+
+
+
+
+
+String& String::operator=(const String & rhs)
+{
+    if(this != & rhs)
+    {
+        delete [] this->str;
+        this->set_str(rhs.str);
+    }
+    
+    return * this;
+}
+
+String& String::operator=(const char * str)
+{
+    delete [] this->str;
+
+    this->set_str(str);
+
+    return * this;
+
+}
+
+bool String::operator==(const String & rhs) const
+{
+    return strcmp(this->str, rhs.str) == 0;
+}
+
+
+const String String::operator+(const String& rhs) const
+{
+    char *buf = new char[this->len + rhs.len + 1];
+    assert(buf );
+    strcpy(buf, this->str);
+    strcat(buf, rhs.str);
+
+    String result(buf, true);
+    
+    return result;
+}
+
+const char * String::c_str() const
+{
+    return this->str;
+}
+
+int String::lenght() const
+{
+    return this->len;
+}
+
+
+
+```
 ### main.cpp
   - default생성자
   - 변환생성자
@@ -281,4 +438,38 @@ String클래스는 포인터를 맴버 변수로 가진다.
 ```c
     s1 = s2 ;
     s1 = "wonderful tonight";
+```
+#### 완성된 main.cpp
+```c
+#include <iostream>
+#include <cstring>
+#include "string.h"
+
+int main(){
+    String s1;
+    String s2 = "just the way yor are";
+    String s3 = s2;
+
+    s1 = s2 ;
+    s1 = "wonderful tonight";
+
+    std::cout << "s1 : " << s1.c_str() << "\t" << s1.lenght() << std::endl;
+    std::cout << "s2 : " << s2.c_str() << "\t" << s2.lenght() << std::endl;
+    std::cout << "s3 : " << s3.c_str() << "\t" << s3.lenght() << std::endl;
+
+    if(s1 == s2){
+        std::cout << "s1 and s2 are equal" << std::endl;
+    }else{
+        std::cout << "s1 and s2 are not equal" << std::endl;
+    }
+
+    String s4;
+    s4 = s1 + " "+ "Billy Joel";
+    std::cout << "s4 : " << s4 << std::endl;
+
+
+
+    return 0 ;
+    
+}
 ```
