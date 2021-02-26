@@ -2,30 +2,38 @@
 ## Stack from C to Cpp
 
 ### stack.h
+#### array 클래스 상속
+  - has-a 관계
+  - stack클래스가 array클래스를 갖고있다.
+  - 맴버변수로 클래스를 갖는 관계이다
+ #### Array객체의 맴버변수 정의
+```c
+        Array arr_;  
+```
 
 #### 완성된 stack.h
 ```c
 #ifndef STACK_H
 #define STACK_H
+#include "array.h"
 
 class Stack{
 private:
     static const int STACKSIZE;
 
-    int *pArr_;
-    int size_;
+    // int *pArr_;
+    // int size_;
+    Array arr_;      //상속 : has-a 관계 stack클래스가 array클래스를 갖고있다. 맴버변수로 클래스를 갖는 관계
+
     int tos_;
 
-    // client 코드에서 사용할 수 없다.
     Stack(const Stack& rhs);
     Stack& operator=(const Stack & rhs);
 
 public:
-    // Stack* operator&();
-    // const Stack* operator&() const;
 
     explicit Stack(int size = STACKSIZE);
-    ~Stack();
+    
 
     void push(int data);
     int pop();
@@ -35,82 +43,90 @@ public:
 };
 
 #endif
+
 ```
 
 ### stack.cpp
-#### 생성자 초기화 리스트 사용
-  -  맴버 변수를 초기화 하면 this-> 를 생략할 수 있다.
+#### include "array.cpp
+  - Array 클래스의 객체를 사용하기 위해 전처리한다
  ```c
-     Stack::Stack(int size)
-    : pArr_(new int[size]), size_(size), tos_(0)
-    {
-        assert(pArr_);      //this-> 생략
-    }
-
+     #include "array.h" 
  ```
-#### push / pop 함수 구현
-```c
-    void Stack::push(int data)
+ 
+ #### push /pop 함수 구현
+   -  array클래스 타입의 객체의 대괄호 연산  사용
+ ```c
+     void Stack::push(int data)
     {   
         assert(!isFull());
-        pArr_[tos_] = data;
+
+        arr_[tos_] = data;
         ++tos_;
     }
     int Stack::pop()
     {
         assert(!isEmpty());
-        --tos_;
-        return pArr_[tos_];
-    }
-```
 
-#### isFull/ isEmpty함수 구현
-  - 스택의 값이 꽉 차있을 때 push를 하거나, 비어있을 때 pop하면 안되기 떄문에 오류검사를 하기 위해 사용한다.
- ```c
-     bool Stack::isFull() const
+        --tos_;
+        return arr_[tos_];
+    }
+    
+    int Stack::pop()
     {
-        return (tos_ == size_);
+    assert(!isEmpty());
+
+    --tos_;
+    return arr_[tos_];
+    }
+ ```
+  
+ #### isFull/ isEmpty 함수 구현
+   -  array클래스 안의 객체를 통해 size맴버함수 호출
+ ```c
+     
+    bool Stack::isFull() const
+    {
+        return (tos_ == arr_.size());
     }
     bool Stack::isEmpty() const
     {
         return (tos_ == 0);
     }
-
  ```
 #### 완성된 stack.cpp
 ```c
 #include <cassert>
 #include "stack.h"
+#include "array.h"
 
 const int Stack::STACKSIZE = 100;
 
 Stack::Stack(int size)
-: pArr_(new int[size]), size_(size), tos_(0)
+: arr_(size), tos_(0)
 {
-    assert(pArr_);      //this-> 생략
+
 }
 
-Stack::~Stack()
-{
-    delete [] pArr_;
-}
+// 소멸자는 자동을 컴파일러가 생성해줌
 
 void Stack::push(int data)
 {   
     assert(!isFull());
-    pArr_[tos_] = data;
+   
+    arr_[tos_] = data;
     ++tos_;
 }
 int Stack::pop()
 {
     assert(!isEmpty());
+
     --tos_;
-    return pArr_[tos_];
+    return arr_[tos_];
 }
 
 bool Stack::isFull() const
 {
-    return (tos_ == size_);
+    return (tos_ == arr_.size());
 }
 bool Stack::isEmpty() const
 {
