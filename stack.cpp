@@ -1,33 +1,37 @@
-#include "stack.h"
-#include <cstdio>
-#include <cstdlib>
 #include <cassert>
+#include "stack.h"
 
- Stack::Stack(int)
+const int Stack::STACKSIZE = 100;
+
+Stack::Stack(int size)
+: pArr_(new int[size]), size_(size), tos_(0)
 {
-    /* this->pArr = (int *)malloc(sizeof(int)*size); */
-    this->pArr = new int[size];
-    assert(this->pArr /*!= NULL*/);
-    this->size = size;
-    this->tos = 0;
+    assert(pArr_);      //this-> 생략
 }
- Stack::~Stack()
+
+Stack::~Stack()
 {
-    /*free(this->pArr);*/
-    delete [] this->pArr;
+    delete [] pArr_;
 }
+
 void Stack::push(int data)
-{ 
-    assert(this->tos != this->size);
-    this->pArr[this->tos] = data;
-    ++this->tos;
+{   
+    assert(!isFull());
+    pArr_[tos_] = data;
+    ++tos_;
 }
-
-int Stack::pop(void)
+int Stack::pop()
 {
-    assert(this->tos != 0);
-    --this->tos;
-    return this->pArr[this->tos];
+    assert(!isEmpty());
+    --tos_;
+    return pArr_[tos_];
 }
 
-
+bool Stack::isFull() const
+{
+    return (tos_ == size_);
+}
+bool Stack::isEmpty() const
+{
+    return (tos_ == 0);
+}
