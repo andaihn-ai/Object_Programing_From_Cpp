@@ -45,7 +45,7 @@
 
 ##### get함수 정의
 ```c
-  int size() const;
+    int size() const;
 ```
 #### 완성된 array.h
 ```c
@@ -76,12 +76,9 @@ public:
     bool operator==(const Array& rhs) const;
 
     
-    //치환문에 왼쪽에도 쓸 수 있다.
     int& operator[](int index);
-    // 상수 객체의 reference 에서 꺼내기 떄문에 const int & 이다.
     const int& operator[](int index) const;
 
-    // get 함수
     int size() const;
 
 
@@ -90,17 +87,115 @@ public:
 #endif
 ```
 ### array.cpp
+##### 상수 ARRAYSIZE 정의
+  - #define 은 전처리 떄 코드 치환이 된다. 
+  - 상수로 처리 해놓으면 컴파일 될 때 좀더 엄격하게 타입채킹 한다.
+  - 전역공간에 정의
+```c
+    const int ARRAYSIZE = 100;
+```
+##### 생성자 함수 구현
+```c
+    Array::Array(int size){
+        this->pArr_ = new int[size];
+        assert(this->pArr_ );
+        this->size_ = size;
+    }
+    Array::Array(const int *pArr, int size)
+    {
+        this->pArr_ = new int[size];
+        assert(this->pArr_ );
+        for(int i = 0; i<size; ++i){
+            this->pArr_[i] = pArr[i];
+        }
+        this->size_ = size;
+    }
 
+    Array::Array(const Array& rhs/*, int size*/){
+        this->pArr_ = new int[rhs.size_];
+        assert(this->pArr_);
+        for(int i = 0; i< rhs.size_; ++i){
+            this->pArr_[i] = rhs.pArr_[i];
+        }
+
+        this->size_ = rhs.size_;
+    }
+
+```
+
+##### 소멸자 함수 구현
+```c
+
+    Array::~Array()
+    {
+        delete [] this->pArr_;
+    }
+```
+
+##### 치환 연산자 구현
+  - 자기 자신을 치환할때 원본이 delete로 날라가는 문제를 해결하기 위해 주소값을 비교하여 같은 값이 아닌 경우 실행
+  - 사이즈도 함께 치환해준다.
+```c
+    Array& Array::operator=(const Array& rhs){
+        if(this != &rhs){
+            delete[] this->pArr_;
+            this->pArr_ = new int[rhs.size_];
+            assert(this->pArr_ );
+
+            for(int i = 0; i < rhs.size_; ++i){
+                this->pArr_[i] = rhs.pArr_[i];
+            }
+            this->size_ = rhs.size_;
+        }
+        return * this;
+    }
+```
+
+##### 비교 연산자 구현
+  - this->size_ 와  rhs.size 가 같은지 체킹하고,  다르다면 비교할 필요 없다.
+  - 사이즈가 같다면 반복문을 이용해 같은지 비교한다.
+  - i 와 맴버변수의 사이즈가 같다면 마지막까지 같은 걸로 간주한다.
+```c
+    bool Array::operator==(const Array& rhs) const
+    {  
+        if(this->size_ != rhs.size_){
+            return false;
+        }
+        int i;
+        for(i = 0; i < this->size_; ++i){
+            if(this->pArr_[i] != rhs.pArr_[i])
+                break;
+        }
+        return (i == this->size_);
+    }
+```
+
+##### get함수 구현
+```c
+    int Array::size() const
+    {
+        return this->size_;
+    }
+```
+
+##### 대괄호함수 구현
+  - 힙상에 element가 생성될 공간을 만들어놈
+  - 그 공간을 reference로 넘긴다.
+```c
+    int& Array::operator[](int index){
+        return this->pArr_[index];
+    }
+
+    const int& Array::operator[](int index) const{
+        return this->pArr_[index];
+    }
+```
 
 #### 완성된 array.cpp
 ```c
 #include <cassert>
 #include "array.h"
 
-
-// #define 은 전처리때 코드 치환이 된다
-// 상수처리 해놓으면  컴파일될때 타입채킹한다.
-// 전역공간에 정의
 const int ARRAYSIZE = 100;
 
 
@@ -141,8 +236,7 @@ Array::~Array()
 {
     delete [] this->pArr_;
 }
-// 자기 자신을 치환할때 원본이 delete로 날라가는 문제를 해결하기 위해 주소값을 비교하여 같은 값이 아닌 경우 실행
-// 사이즈도 치환해준다.
+
 Array& Array::operator=(const Array& rhs){
     if(this != &rhs){
         delete[] this->pArr_;
@@ -157,17 +251,17 @@ Array& Array::operator=(const Array& rhs){
     return * this;
 }
 bool Array::operator==(const Array& rhs) const
-{    // this->size_ 와  rhs.size 가 다르다면 비교할 필요 없음
+{    
     if(this->size_ != rhs.size_){
         return false;
     }
-    // 사이즈가 같다면 반복문을 이용해 같은지 비교한다.
+    
     int i;
     for(i = 0; i < this->size_; ++i){
         if(this->pArr_[i] != rhs.pArr_[i])
             break;
     }
-    //i 와 사이즈가 같으면 마지막 까지 같다.
+    
     return (i == this->size_);
 }
 //get 함수
@@ -181,8 +275,6 @@ int& Array::operator[](int index){
 }
     
 const int& Array::operator[](int index) const{
-    // 힙상에 element가 생성될 공간을 만들어놈
-    // 그 공간을 reference로 넘긴다.
     return this->pArr_[index];
 }
 ```
