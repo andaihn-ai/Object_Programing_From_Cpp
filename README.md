@@ -177,3 +177,16 @@ int main()
 
 }
 ```
+#### 컴파일 및 빌드
+```c
+g++ -c main.cpp
+g++ -c stack.cpp
+g++ -o test stack.o main.o
+./queue
+```
+#### 샐행결과
+```c
+s1 pop(): 300
+s1 pop(): 200
+s1 pop(): 100
+v
