@@ -261,6 +261,22 @@ int main()
     std::cout << "c2 : (" << c2.real() << ", " << c2.imag() << "i)" << std::endl;
     std::cout << "c3 : (" << c3.real() << ", " << c3.imag() << "i)" << std::endl;
     std::cout << "c4 : (" << c4.real() << ", " << c4.imag() << "i)" << std::endl;
+    
+    #### 컴파일 및 빌드
+```c
+g++ -c main.cpp
+g++ -c complex.cpp
+g++ -o test complex.o main.o
+./queue
+```
+#### 샐행결과
+```c
+c1 : (3, 4i)
+c2 : (3, 0i)
+c3 : (3, 4i)
+c4 : (6, 4i)
+c1 and c3 are equal
+
     std::cout << "c5 : (" << c5.real() << ", " << c5.imag() << "i)" << std::endl;
     
  
