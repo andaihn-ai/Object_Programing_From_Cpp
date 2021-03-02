@@ -165,8 +165,8 @@ int main()
 #### 컴파일 및 빌드
 ```c
 g++ -c main.cpp
-g++ -c queue.cpp
-g++ -o queue queue.o
+g++ -c stack.cpp
+g++ -o stack stack.o main.o
 ./queue
 ```
 #### 샐행결과
