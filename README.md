@@ -194,3 +194,16 @@ int main ()
     return 0;       
 }
 ```
+#### 컴파일 및 빌드
+```c
+g++ -c main.cpp
+g++ -c queue.cpp
+g++ -o queue queue.o
+./queue
+```
+#### 샐행결과
+```c
+q1 pop() : 100
+q1 pop() : 200
+q1 pop() : 300
+```
