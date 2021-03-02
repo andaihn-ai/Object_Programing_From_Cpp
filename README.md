@@ -51,3 +51,14 @@ void swap(int &ra, int &rb){
 }
 
 ```
+#### 컴파일 및 빌드
+```c
+g++ -c main.cpp
+g++ -c reference.cpp
+g++ -o test reference.o main.o
+./queue
+```
+#### 샐행결과
+```c
+a : 200
+b :100
