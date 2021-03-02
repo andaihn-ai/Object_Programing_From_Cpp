@@ -213,3 +213,16 @@ int main()
    }
 }
 ```
+#### 컴파일 및 빌드
+```c
+g++ -c main.cpp
+g++ -c rational.cpp
+g++ -o test rational.o main.o
+./queue
+```
+#### 샐행결과
+```c
+r1 : 3/4
+r2 : 3/1
+r3 : 3/4
+r1 and r3 and equal
