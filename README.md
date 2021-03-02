@@ -25,7 +25,7 @@ friend Complex operator-(const Complex& lhs, const Complex& rhs);
 class Complex     
 {
 
-friend std::ostream& operator<<(std::ostream& out, /* const */Complex& rhs);
+friend std::ostream& operator<<(std::ostream& out,  const Complex& rhs);
 
 friend Complex operator+(const Complex& lhs, const Complex& rhs);
 friend Complex operator-(const Complex& lhs, const Complex& rhs);
@@ -80,11 +80,11 @@ std::ostream& operator<<(std::ostream& out, const Complex& rhs)
     return out;
 }
 
-Complex ::operator+(const Complex& lhs, const Complex& rhs)
+Complex operator+(const Complex& lhs, const Complex& rhs)
 {
    return Complex(lhs.re+ rhs.re, lhs.im + rhs.im);
 }
-Complex ::operator-(const Complex& lhs, const Complex& rhs)
+Complex operator-(const Complex& lhs, const Complex& rhs)
 {
    return Complex(lhs.re - rhs.re, lhs.im - rhs.im);
 }
@@ -178,6 +178,7 @@ int main()
 g++ -c mian.cpp
 g++ -c complex.cpp
 g++ -o test complex.o main.o
+./test.exe
 ```
 ### 실행 결과
 ```c
