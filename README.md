@@ -90,13 +90,13 @@ std::ostream& operator<<(std::ostream& out,  const Complex& rhs)
 }
 ```
 
-#### 연산 전역함수 구현
+#### 연산 함수 구현
 ```c
-Complex ::operator+(const Complex& lhs, const Complex& rhs)
+Complex operator+(const Complex& lhs, const Complex& rhs)
 {
      return Complex(lhs.real() + rhs.real(), lhs.imag() + rhs.imag());
 }
-Complex ::operator-(const Complex& lhs, const Complex& rhs)
+Complex operator-(const Complex& lhs, const Complex& rhs)
 {
      return Complex(lhs.real() - rhs.real(), lhs.imag() - rhs.imag());
 }
@@ -130,12 +130,12 @@ std::ostream& operator<<(std::ostream& out, const Complex& rhs)
     return out;
 }
 
-Complex ::operator+(const Complex& lhs, const Complex& rhs)
+Complex operator+(const Complex& lhs, const Complex& rhs)
 {
     return Complex(lhs.re + rhs.re, lhs.im + rhs.im);
    // return Complex(lhs.real() + rhs.real(), lhs.imag() + rhs.imag());
 }
-Complex ::operator-(const Complex& lhs, const Complex& rhs)
+Complex operator-(const Complex& lhs, const Complex& rhs)
 {
     return Complex(lhs.re - rhs.re, lhs.im - rhs.im);
    // return Complex(lhs.real() - rhs.real(), lhs.imag() - rhs.imag());
