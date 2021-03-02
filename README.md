@@ -254,3 +254,17 @@ int main()
 
 }
 ```
+#### 컴파일 및 빌드
+```c
+g++ -c main.cpp
+g++ -c complex.cpp
+g++ -o test complex.o main.o
+./queue
+```
+#### 샐행결과
+```c
+c1 : (3, 4i)
+c2 : (3, 0i)
+c3 : (3, 4i)
+c4 : (6, 4i)
+c1 and c3 are equal
