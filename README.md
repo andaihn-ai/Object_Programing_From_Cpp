@@ -189,4 +189,4 @@ g++ -o test stack.o main.o
 s1 pop(): 300
 s1 pop(): 200
 s1 pop(): 100
-v
+
