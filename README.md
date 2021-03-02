@@ -53,3 +53,13 @@ int main(){
 }
 
   ```
+#### 컴파일 및 빌드
+```c
+g++ -c main.cpp
+g++ -c date.cpp
+g++ -o test date.o main.o
+./queue
+```
+#### 샐행결과
+```c
+(2021/1/3)
