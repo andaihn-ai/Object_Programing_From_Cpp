@@ -473,3 +473,17 @@ int main(){
     
 }
 ```
+#### 컴파일 및 빌드
+```c
+g++ -c main.cpp
+g++ -c string.cpp
+g++ -o test string.o main.o
+./queue
+```
+#### 샐행결과
+```c
+s1 : wonderful tonight  17
+s2 : just the way yor are       20
+s3 : just the way yor are       20
+s1 and s2 are not equal
+s4 : wonderful tonight Billy Joel
