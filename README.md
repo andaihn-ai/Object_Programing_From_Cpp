@@ -198,7 +198,7 @@ int main ()
 ```c
 g++ -c main.cpp
 g++ -c queue.cpp
-g++ -o queue queue.o
+g++ -o queue queue.o main.o
 ./queue
 ```
 #### 샐행결과
