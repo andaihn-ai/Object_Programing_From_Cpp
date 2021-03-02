@@ -173,3 +173,17 @@ int main()
 
 }
 ```
+### 컴파일 및 빌드
+```c
+g++ -c mian.cpp
+g++ -c complex.cpp
+g++ -o test complex.o main.o
+```
+### 실행 결과
+```c
+c1 : (0,0i)
+c2 : (-3,-4i)
+c3 : (3,4i)
+c4 : (3,4i)
+c3 and c5 are not equal
+```
