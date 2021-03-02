@@ -317,3 +317,18 @@ int main(){
 
 }
 ```
+#### 컴파일 및 빌드
+```c
+g++ -c main.cpp
+g++ -c array.cpp
+g++ -o test array.o main.o
+./queue
+```
+#### 샐행결과
+```c
+1
+2
+3
+4
+5
+```
