@@ -5,6 +5,8 @@
   - 탬플릿을 사용하면 별도의 함수나 클래스를 만들지 않고, 하나의 함수나 클래스에서 여러 타입이 동작할 수 있습니다.
 
 ## array template
+  - 임의의 타입으로 작성된 함수에 특정 타입을 매개변수로 전달하면, 컴파일러에서 함수를 생성하기 때문에 template에는 cpp파일이 없습니다.
+  - array.cpp 파일을 헤더 파일로 옮겨 임의의 타입으로 함수를 작성합니다.
 ### array.h
 ```c
 #ifndef ARRAY_H
@@ -143,24 +145,34 @@ int Array<T>::size() const
 
 ```
 ### main.cpp
+#### 전처리문
 ```c
 #include <iostream>
 #include "array.h"
 
-
+```
+#### array 생성
+  - 내부적으로 int형을 저장하는 nums array 생성
+  - <> 안에 타입을 받아 타입에 타겟팅 되는 arr1 배열 생성
+  - 매개변수로 넘겨준 nums 안의 값이 arr1에 들어갑니다.
+  - 반복문을 통해 arr1의 값을 출력합니다.
+```c
 int main()
 {
-    // 내부적으로 int 형을 저장하는 array 
-    // <> 안의 타입을 받아 타입에 타겟팅되는 소스코드 생성
 
-    int nums[]={1, 2, 3, 4, 5 };                    // int형 nums 배열 생성
-    Array<int> arr1(nums, 5);                       // int 형 array코드
+    int nums[]={1, 2, 3, 4, 5 };                  
+    Array<int> arr1(nums, 5);                     
 
     for(int i = 0; i < arr1.size(); ++i)
     {
         std::cout << arr1[i] << std::endl;
     }
-
+ ```
+  - 내부적으로 double 형을 저장하는 nums2 array 생성
+  - <> 안에 타입을 받아 타입에 타겟팅 되는 arr2 배열 생성
+  - 매개변수로 넘겨준 nums2 안의 값이 arr2에 들어갑니다.
+  - 반복문을 통해 arr2의 값을 출력합니다.
+ ```c
     double nums2[]={1.1, 2.2, 3.3, 4.4, 5.5 };
     Array<double> arr2(nums2, 5);                   // double 형 array코드
 
