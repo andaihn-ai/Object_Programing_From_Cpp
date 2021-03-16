@@ -1,12 +1,12 @@
 # Object_Programing_From_Cpp
 
-### template
+## template
   - 템플릿이란 매개변수의 타입에 따라 함수나 클래스 생성하는 메커니즘을 의미합니다.
   - 탬플릿을 사용하면 별도의 함수나 클래스를 만들지 않고, 하나의 함수나 클래스에서 여러 타입이 동작할 수 있습니다.
 
 
-### array.h
-#### class Array 정의
+## array.h
+### class Array 정의
 ```c
 class Array{
 private :
@@ -16,7 +16,7 @@ protect :
 public :
 };
 ```
-#### private 맴버변수 정의
+### private 맴버변수 정의
   - 사용자 정의형 메모리
   - 포인터를 맴버로 가지고 힙메모리를 사용합니다(deep copy).
 ```c
@@ -24,7 +24,7 @@ private :
     T *pArr_;                
 
 ```
-#### protect 맴버변수 정의
+### protect 맴버변수 정의
 
 ```c
 protected :                          
@@ -32,8 +32,9 @@ protected :
     int size_;
               
 ```
-#### public 맴버변수 정의
-#### 전역변수 정의
+## public 맴버변수 정의
+  - 아래와 같이 전역변수, 생성자, 소멸자, 연산자를 정의합니다.
+### 전역변수 정의
 ```c
     static int getArraySize();      
 ```
