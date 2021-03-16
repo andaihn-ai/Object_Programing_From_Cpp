@@ -38,22 +38,38 @@ protected :
 ```c
     static int getArraySize();      
 ```
-#### 생성자정의
+### 생성자정의
 ```c
     explicit Array(int size = Array<T>::ARRAYSIZE);
     Array(const T * pArr, int size);
     Array(const Array<T> & rhs);
+```
+### 소멸자 정의
+  - 가상함수가 선언되면 소멸자는 반드시 가상으로 선언해야 합니다.
+```c
     virtual ~Array();
  ```
- #### 연산자 정의
+ ### 연산자 정의
  ```c
     Array<T>& operator=(const Array<T>& rhs);
 
     bool operator==(const Array<T>& rhs) const;
-
+```
+### 가상함수 대괄호 연산자 정의
+  - virtual 멤버함수의 원형;
+  - virtual 키워드를 사용해 가상함수를 선언하면 파생 클래스에서 재정의된 맴버 함수도 자동으로 가상 함수가 됩니다.
+  - 가상함수는 프로그램이 실행될 때 객체를 결정하므로, 컴파일 타임에 해당 객체를 특정할 수 없습니다.
+  - 가상함수는 런타임에 올바르게 실행되어야 하기 때문에 동적으로 바인딩(함수를 호출하는 코드에서 어느 블록에 있는 함수를 실행하라는 의미로 해석) 합니다.
+  - 가상함수도 결합하는 타입이 분명할때에는 일반 함수와 같이 정적 바인딩 합니다.
+  - 클래스 타입의 포인터나 참조를 통하여 호출될 때만 동적 바인딩을 하게됩니다.
+  - 가상함수를 사용하면 함수의 호출 과정이 복잡해지므로, 메모리와 실행속도 측면에서 부담이됩니다. 따라서 C++에서 기본 바인딩은 정적 바인딩이며, 필요한 경우 가상함수로 선언하도록 합니다.
+  - 파생 클래스가 재정의할 가능성이 있는 함수는 모두 가상함수로 선언하는 것을 권장합니다.
+```c
     virtual T& operator[](int index);
     virtual const T& operator[](int index) const;
-
+```
+### 배열 사이즈 함수 정의
+```c
     int size() const;
 
 ```
@@ -310,14 +326,14 @@ int Array<T>::size() const
 // 타입을 받아 코드를 생성하기 떄문
 
 ```
-### main.cpp
-#### 전처리문
+## main.cpp
+### 전처리문
 ```c
 #include <iostream>
 #include "array.h"
 
 ```
-#### array 생성
+### array 생성
   - 내부적으로 int형을 저장하는 nums array 생성
   - <> 안에 타입을 받아 타입에 타겟팅 되는 Array타입의 arr1 배열 초기화
   - 배열을 인자로 전달할때 첫 번째 element의 시작주소(nums)와 사이즈(5)를 전달한다. 
@@ -352,7 +368,7 @@ int main()
     return 0;
 }
 ```
-### 완성된 main.cpp
+## 완성된 main.cpp
 ```c
 #include <iostream>
 #include "array.h"
@@ -381,13 +397,13 @@ int main()
 }
 
 ```
-### 컴파일 및 빌드
+## 컴파일 및 빌드
 ```c
 g++ -c main.cpp
 g++ -o test main.o
 ./test.exe
 ```
-### 실행결과
+## 실행결과
 ```c
 1
 2
