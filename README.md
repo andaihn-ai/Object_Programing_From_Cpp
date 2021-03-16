@@ -71,7 +71,9 @@ int Array<T>::getArraySize()
 {
     return Array<T>::ARRAYSIZE;        //전역변수값을 리턴
 }
-
+```
+### 생성자 템플릿 구현
+```c
 template <typename T>
 Array<T>::Array(int size)
 : pArr_(new int[size]), size_(size)
@@ -100,13 +102,17 @@ Array<T>::Array(const Array<T> & rhs)
         pArr_[i] = rhs.pArr_[i];
     }
 }
-
+```
+### 소멸자 템플릿 구현
+```c
 template <typename T>
 Array<T>::~Array()
 {
     delete [] pArr_;
 }
-
+```
+### 치환 연산자 템플릿 구현
+```c
 template <typename T>
 Array<T>& Array<T>::operator=(const Array<T>& rhs)
 {
@@ -122,7 +128,9 @@ Array<T>& Array<T>::operator=(const Array<T>& rhs)
     }
     return * this;
 }
-
+```
+### 비교 연산자 템플릿 구현
+```c
 template <typename T>
 bool Array<T>::operator==(const Array<T>& rhs) const
 {
@@ -136,19 +144,26 @@ bool Array<T>::operator==(const Array<T>& rhs) const
     }
     return (i == rhs.size_);
 }
-
+```
+### 대괄호 연산자 템플릿 구현
+```c
 template <typename T>
 T& Array<T>::operator[](int index)
 {
     return pArr_[index];
 }
-
+```
+### const 대괄호 연산자 템플릿 구현
+```c
 template <typename T>
 const T& Array<T>::operator[](int index) const
 {
     return pArr_[index];
 }
 
+```
+### array 사이즈 리턴 템플릿 구현
+```c
 template <typename T>
 int Array<T>::size() const
 {
