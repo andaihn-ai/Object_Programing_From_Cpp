@@ -1,0 +1,17 @@
+    /*
+    컴파일러가 자동으로 만들어 주는 생성자 6개
+
+    Array();
+    Array(const Array& rhs);               : 복사생성자
+    ~Array();                              : 본체가 비어있는 소멸자
+    Array & operator=(const Array& rhs);   : 치환연산자
+    Array * operator&();                   : &연산(일반객체)
+    const Array * operator&() const ;      : const 맴버함수(상수객체)
+
+    */
+
+
+    array vs. pointer
+    
+    static binding-complie 시간에 결정  : 실행시간의 오버헤드를 줄일 수 있다.
+    dynamic binding -  run-time 시간에 결정
