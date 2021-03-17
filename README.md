@@ -94,7 +94,7 @@ int Array<T>::getArraySize()
 }
 ```
 ### 생성자 템플릿 구현
-  - 임의의 값을 받아오는 매개변수의 타입을 T로 정의합니다.
+  - 임의의 타입 T타입으로 저장하기 위해 자료형 <T>를 붙여줍니다.
 ```c
 template <typename T>
 Array<T>::Array(int size)
