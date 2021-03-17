@@ -77,7 +77,7 @@ protected :
     int size() const;
 
 ```
-## 헤더파일에 cpp 함수 구현
+## 헤더파일에 array.cpp 함수 구현
 ### array template
   - 임의의 타입으로 작성된 함수에 특정 타입을 매개변수로 전달하면, 컴파일러에서 함수를 생성하기 때문에 template에는 cpp파일이 없습니다.
   - array.cpp 파일을 헤더 파일로 옮겨 임의의 타입으로 함수를 작성합니다.
