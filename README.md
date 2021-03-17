@@ -4,7 +4,7 @@
   - 템플릿이란 매개변수의 타입에 따라 함수나 클래스 생성하는 메커니즘을 의미합니다.
   - 탬플릿을 사용하면 별도의 함수나 클래스를 만들지 않고, 하나의 함수나 클래스에서 여러 타입이 동작할 수 있습니다.
   - 타입을 받아서 만들어 지는 코드에 tamplate <typename T> 를 붙여줍니다.
-  - 임의의 타입을 받아 저장하는 <T> 를 붙여줍니다. 클래스 이름, 생성자와 소멸자는 <T>를 사용하지 않습니다.
+  - 임의의 타입을 받아 저장하는 Array <T> 를 붙여줍니다. 클래스 이름, 생성자와 소멸자는 <T>를 사용하지 않습니다.
 
 
 ## array.h
@@ -60,7 +60,8 @@ protected :
 ```
 ### 가상함수 대괄호 연산자 정의
   - virtual 멤버함수의 원형;
-  - virtual 키워드를 사용해 가상함수를 선언하면 파생 클래스에서 재정의된 맴버 함수도 자동으로 가상 함수가 됩니다.
+  - virtual 키워드를 사용해 가상함수를 선언하면 파생 클래스에서 재정의된 맴버 함수도 자동으로 가상 함수가 됩니다. 
+  - 클래스 내에 가상함수가 하나 이상 포함이 되면 소멸자에는 반드시 virtual를 붙여줍니다.
   - 가상함수는 프로그램이 실행될 때 객체를 결정하므로, 컴파일 타임에 해당 객체를 특정할 수 없습니다.
   - 가상함수는 런타임에 올바르게 실행되어야 하기 때문에 동적으로 바인딩(함수를 호출하는 코드에서 어느 블록에 있는 함수를 실행하라는 의미로 해석) 합니다.
   - 가상함수도 결합하는 타입이 분명할때에는 일반 함수와 같이 정적 바인딩 합니다.
@@ -93,6 +94,7 @@ int Array<T>::getArraySize()
 }
 ```
 ### 생성자 템플릿 구현
+  - 임의의 값을 받아오는 매개변수의 타입을 T로 정의합니다.
 ```c
 template <typename T>
 Array<T>::Array(int size)
@@ -123,7 +125,8 @@ Array<T>::Array(const Array<T> & rhs)
     }
 }
 ```
-### 소멸자 템플릿 구현
+### 소멸자 템플릿 구현 
+  - 임의의 타입 T타입으로 저장하기 위해 자료형 <T>를 붙여줍니다.
 ```c
 template <typename T>
 Array<T>::~Array()
@@ -132,6 +135,8 @@ Array<T>::~Array()
 }
 ```
 ### 치환 연산자 템플릿 구현
+  - 임의의 타입 T타입으로 저장하기 위해 자료형 <T>를 붙여줍니다.
+
 ```c
 template <typename T>
 Array<T>& Array<T>::operator=(const Array<T>& rhs)
@@ -150,6 +155,7 @@ Array<T>& Array<T>::operator=(const Array<T>& rhs)
 }
 ```
 ### 비교 연산자 템플릿 구현
+  - 임의의 타입 T타입으로 저장하기 위해 자료형 <T>를 붙여줍니다.
 ```c
 template <typename T>
 bool Array<T>::operator==(const Array<T>& rhs) const
@@ -166,6 +172,7 @@ bool Array<T>::operator==(const Array<T>& rhs) const
 }
 ```
 ### 대괄호 연산자 템플릿 구현
+  - 임의의 반환값을 T 타입으로 정의해 줍니다.
 ```c
 template <typename T>
 T& Array<T>::operator[](int index)
@@ -174,6 +181,7 @@ T& Array<T>::operator[](int index)
 }
 ```
 ### const 대괄호 연산자 템플릿 구현
+  - 임의의 반환값을 T 타입으로 정의해 줍니다.
 ```c
 template <typename T>
 const T& Array<T>::operator[](int index) const
@@ -355,10 +363,6 @@ int main()
     }
  ```
   - 내부적으로 double 형을 저장하는 nums2 array 생성
-  - <> 안에 타입을 받아 타입에 타겟팅 되는 Array 타입의 arr2 배열 생성
-  - 배열을 인자로 전달할때 첫 번째 element의 시작주소(nums2)와 사이즈(5)를 전달한다. 
-  - 매개변수로 넘겨준 nums2 안의 값이 arr2에 들어갑니다.
-  - 반복문을 통해 arr2의 값을 출력합니다.
  ```c
     double nums2[]={1.1, 2.2, 3.3, 4.4, 5.5 };
     Array<double> arr2(nums2, 5);                   // double 형 array코드
@@ -371,6 +375,7 @@ int main()
     return 0;
 }
 ```
+
 ## 완성된 main.cpp
 ```c
 #include <iostream>
