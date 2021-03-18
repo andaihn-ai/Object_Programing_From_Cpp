@@ -61,15 +61,6 @@ protected :
     bool operator==(const Array<T>& rhs) const;
 ```
 ### 가상함수 대괄호 연산자 정의
-  - virtual 멤버함수의 원형;
-  - virtual 키워드를 사용해 가상함수를 선언하면 파생 클래스에서 재정의된 맴버 함수도 자동으로 가상 함수가 됩니다. 
-  - 클래스 내에 가상함수가 하나 이상 포함이 되면 소멸자에는 반드시 virtual를 붙여줍니다.
-  - 가상함수는 프로그램이 실행될 때 객체를 결정하므로, 컴파일 타임에 해당 객체를 특정할 수 없습니다.
-  - 가상함수는 런타임에 올바르게 실행되어야 하기 때문에 동적으로 바인딩(함수를 호출하는 코드에서 어느 블록에 있는 함수를 실행하라는 의미로 해석) 합니다.
-  - 가상함수도 결합하는 타입이 분명할때에는 일반 함수와 같이 정적 바인딩 합니다.
-  - 클래스 타입의 포인터나 참조를 통하여 호출될 때만 동적 바인딩을 하게됩니다.
-  - 가상함수를 사용하면 함수의 호출 과정이 복잡해지므로, 메모리와 실행속도 측면에서 부담이됩니다. 따라서 C++에서 기본 바인딩은 정적 바인딩이며, 필요한 경우 가상함수로 선언하도록 합니다.
-  - 파생 클래스가 재정의할 가능성이 있는 함수는 모두 가상함수로 선언하는 것을 권장합니다.
 ```c
     virtual T& operator[](int index);
     virtual const T& operator[](int index) const;
@@ -332,12 +323,84 @@ int Array<T>::size() const
 
 #endif
 ```
-### array.cpp
+## queue.h
+
 ```c
+#ifndef QUEUE_H
+#define QUEUE_H
+#include "array.h"
 
-// template 코드는 cpp파일이 없다.
-// 타입을 받아 코드를 생성하기 떄문
+template <typename T>
+class Queue{
+private:
+    static const int QUEUESIZE;
 
+    Array<T> arr_;
+    int front_;
+    int rear_;
+
+    Queue(const Queue<T>& rhs);
+    Queue<T>& operator=(const Queue<T> & rhs);
+
+public:
+ 
+    explicit Queue(int size = QUEUESIZE);
+    
+    void push(const T & data);
+    const T pop();
+
+    bool isFull() const;
+    bool isEmpty() const;
+};
+
+#include <cassert>
+
+
+template <typename T>
+const int Queue<T>::QUEUESIZE = 100;
+
+template <typename T>
+Queue<T>::Queue(int size)
+: arr_(size), front_(0), rear_(0)
+{
+    
+}
+
+template <typename T>
+void Queue<T>::push(const T& data)
+{   
+    assert( !isFull());
+    arr_[rear_] = data;
+    ++rear_;
+}
+
+template <typename T>
+const T Queue<T>::pop()
+{
+    assert( !isEmpty());
+    
+    int tmp = front_;
+    ++front_;
+    return arr_[tmp];
+  
+}
+
+template <typename T>
+bool Queue<T>::isEmpty() const
+{
+    return (front_ == rear_);
+}
+
+template <typename T>
+bool Queue<T>::isFull() const
+{
+    return (rear_ == arr_.size());
+}
+
+
+
+
+#endif
 ```
 ## main.cpp
 ### 전처리문
@@ -347,63 +410,34 @@ int Array<T>::size() const
 
 ```
 ### array 생성
-  - 내부적으로 int형을 저장하는 nums array 생성
-  - <> 안에 타입을 받아 타입에 타겟팅 되는 Array타입의 arr1 배열 초기화
-  - 배열을 인자로 전달할때 첫 번째 element의 시작주소(nums)와 사이즈(5)를 전달한다. 
-  - 매개변수로 넘겨준 nums 안의 값이 arr1에 들어갑니다.
-  - 반복문을 통해 arr1의 값을 출력합니다.
+  - 내부적으로 int 형을 저장하는 큐 생성
 ```c
-int main()
-{
-
-    int nums[]={1, 2, 3, 4, 5 };                  
-    Array<int> arr1(nums, 5);                     
-
-    for(int i = 0; i < arr1.size(); ++i)
-    {
-        std::cout << arr1[i] << std::endl;
-    }
- ```
-  - 내부적으로 double 형을 저장하는 nums2 array 생성
- ```c
-    double nums2[]={1.1, 2.2, 3.3, 4.4, 5.5 };
-    Array<double> arr2(nums2, 5);                   // double 형 array코드
-
-    for(int i = 0; i < arr2.size(); ++i)
-    {
-        std::cout << arr2[i] << std::endl;
-    }
-
-    return 0;
-}
+  
+    Queue<int> q1;
+    Queue<int> q2(10);
 ```
 
 ## 완성된 main.cpp
 ```c
 #include <iostream>
-#include "array.h"
+#include "queue.h"
 
-
-int main()
+int main ()
 {
- 
-    int nums[]={1, 2, 3, 4, 5 };                    // int형 nums 배열 생성
-    Array<int> arr1(nums, 5);                       // int 형 array코드
+  
+    Queue<int> q1;
+    Queue<int> q2(10);
+    
+    q1.push(100);
+    q1.push(200);
+    q1.push(300);
 
-    for(int i = 0; i < arr1.size(); ++i)
-    {
-        std::cout << arr1[i] << std::endl;
+    while( !q1.isEmpty()){
+        std::cout << "q1 pop() : " << q1.pop() << std::endl;    
     }
 
-    double nums2[]={1.1, 2.2, 3.3, 4.4, 5.5 };
-    Array<double> arr2(nums2, 5);                   // double 형 array코드
-
-    for(int i = 0; i < arr2.size(); ++i)
-    {
-        std::cout << arr2[i] << std::endl;
-    }
-
-    return 0;
+    
+    return 0;       
 }
 
 ```
@@ -415,14 +449,7 @@ g++ -o test main.o
 ```
 ## 실행결과
 ```c
-1
-2
-3
-4
-5
-1.1
-2.2
-3.3
-4.4
-5.5
+q1 pop() : 100
+q1 pop() : 200
+q1 pop() : 300
 ```
