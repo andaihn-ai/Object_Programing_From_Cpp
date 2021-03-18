@@ -1,6 +1,4 @@
 # Object_Programing_From_Cpp
-## 개발환경
-# Object_Programing_From_Cpp
 
 ## template
   - 템플릿이란 매개변수의 타입에 따라 함수나 클래스 생성하는 메커니즘을 의미합니다.
