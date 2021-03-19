@@ -182,9 +182,88 @@ inline int String::lenght() const
 
 #endif
 ```
-## 컴파일 및 빌드
+## string.inl 파일 만들기
+  - 헤더파일에 작성한 inline 함수들을 inline 함수 파일을 만들어 옮겨 작성 합니다.
+  - 헤더파일에는 #include "string.inl" 의 전처리문을 사용해 inline 함수 파일을 불러옵니다. 
+
+  - inline 함수를 조건부 컴파일(사용할 때 와 안할 때) 하기 위해서 입니다. inline함수로 서 사용할 때에는 헤더파일에 include 해줍니다. 
+### string.h 
+  - inline 함수로써 사용할 때
+  - ifdef구문을 통해 INLINE 상수가 정의되어 있으면 inline함수로 사용됩니다.
 ```c
-g++ -c main.cpp string.cpp
+    #ifdef INLINE
+    #include "string.inl"
+    #endif
+```
+### string.cpp
+  - 일반 함수로 사용하기 위해는 cpp 파일에 함수를 불러옵니다.
+  - cpp 파일에서 inline 키워드를 제거하기 위해 전처리 지시문을 통해 inline 키워드에 아무것도 정의하지 않습니다.
+  - ifndef구문을 통해 INLINE 상수가 정의되어 있지 않으면 일반 함수로 사용됩니다.
+```c
+    #ifndef INLINE
+    #define inline 
+    #include "string.inl"
+    #endif
+```
+### string.inl
+```c
+inline std::ostream& operator<<(std::ostream& out, const String& rhs)
+{
+    return out << rhs.str;
+
+}
+inline String::String(char * str, bool)
+{
+    this->str = str;
+    this->len = strlen(str);
+
+}
+
+inline String::String(const char * str)
+{
+    this->set_str(str);
+}
+inline String::String(const String & rhs)
+{
+    this -> set_str(rhs.str);
+}
+
+inline String::~String()
+{
+    delete [] this->str;
+}
+
+
+
+inline bool String::operator==(const String & rhs) const
+{
+    return strcmp(this->str, rhs.str) == 0;
+}
+
+inline const char * String::c_str() const
+{
+    return this->str;
+}
+
+inline int String::lenght() const
+{
+    return this->len;
+}
+
+```
+
+## 컴파일 및 빌드
+  - 일반함수로 사용
+```c
+g++ -c main.cpp -DNO_INLINE
+g++ -c string.cpp -DNO_INLINE
+g++ -o test main.o string.o
+./test.exe
+```
+  - inline함수로 사용
+```c
+g++ -c main.cpp
+g++ -c string.cpp
 g++ -o test main.o string.o
 ./test.exe
 ```
