@@ -255,15 +255,15 @@ inline int String::lenght() const
 ## 컴파일 및 빌드
   - 일반함수로 사용
 ```c
-g++ -c main.cpp -DNO_INLINE
-g++ -c string.cpp -DNO_INLINE
+g++ -c main.cpp 
+g++ -c string.cpp 
 g++ -o test main.o string.o
 ./test.exe
 ```
   - inline함수로 사용
 ```c
-g++ -c main.cpp
-g++ -c string.cpp
+g++ -c main.cpp -DINLINE
+g++ -c string.cpp -DINLINE
 g++ -o test main.o string.o
 ./test.exe
 ```
